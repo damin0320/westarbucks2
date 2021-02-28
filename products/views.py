@@ -2,7 +2,7 @@ import json
 
 
 from django.views import View
-from django.http import JsonResponse
+from django.http  import JsonResponse
 
 
 from .models import *
@@ -22,8 +22,8 @@ class CategoryView(View):
         return JsonResponse({'result' : result}, status=200)
     
     def post(self, request):
-        data = json.loads(request.body)
-        menu = Menu.objects.get(name=data['menu'])
+        data     = json.loads(request.body)
+        menu     = Menu.objects.get(name=data['menu'])
         category = Category.objects.create(
             name = data["name"],
             menu = menu
@@ -38,20 +38,21 @@ class DrinkView(View):
         
         for drink in drinks:
             my_dict = {
-                'name' : drink.name,
+                'name'        : drink.name,
                 'description' : drink.description,
-                'category' : drink.category.name
+                'category'    : drink.category.name
             }
             result.append(my_dict)
         return JsonResponse({'result' : result}, status=200) 
     
     def post(self, request):
-        data = json.loads(request.body)
+        data     = json.loads(request.body)
         category = Category.objects.get(name=data['category'])
-        drink = Drink.objects.create(
-            name = data['name'],
+        drink    = Drink.objects.create(
+        
+            name        = data['name'],
             description = data["description"],
-            category = category
+            category    = category
         )
         
         return JsonResponse({"MESSAGE" : "SUCCESS"}, status = 201)
@@ -64,17 +65,18 @@ class ImageView(View):
         for image in images:
             my_dict = {
                 'image_url' : image.image_url,
-                'drink' : image.drink.name
+                'drink'     : image.drink.name
             }
             result.append(my_dict)
         return JsonResponse({'result' : result}, status=200) 
     
     def post(self, request):
-        data = json.loads(request.body)
-        drink = Drink.objects.get(name=data['drink'])
+        data      = json.loads(request.body)
+        drink     = Drink.objects.get(name=data['drink'])
         image_url = Image.objects.create(
+        
             image_url = data['image_url'],
-            drink = drink
+            drink     = drink
         )
         
         return JsonResponse({"MESSAGE" : "SUCCESS"}, status = 201)
@@ -87,16 +89,17 @@ class AllergyDrink(View):
         for allergy_drink in allergy_drinks:
             my_dict = {
                 'allergy' : allergy_drink.allergy.name,
-                'drink' : allergy_drink.drink.name
+                'drink'   : allergy_drink.drink.name
             }
             result.append(my_dict)
         return JsonResponse({'result' : result}, status=200)
     
     def post(self, request):
-        data = json.loads(request.body)
-        drink = Drink.objects.get(name=data['drink'])    
+        data    = json.loads(request.body)
+        drink   = Drink.objects.get(name=data['drink'])    
         allergy = Allergy.objects.get(name=data['allergy'])
+        
         allergy_drink = Allergy_Drink.objects.create(
             allergy = allergy,
-            drink = drink)
+            drink   = drink)
         return JsonResponse({"MESSAGE" : "SUCCESS"}, status = 201)
