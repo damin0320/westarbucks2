@@ -111,6 +111,7 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 my_settings.py
+secretes.json
 
 # Flask stuff:
 instance/
